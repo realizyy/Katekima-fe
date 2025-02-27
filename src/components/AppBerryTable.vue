@@ -11,7 +11,6 @@ const searchQuery = ref(berryStore.searchQuery);
 const currentPage = ref(berryStore.currentPage);
 const itemsPerPage = ref(berryStore.itemsPerPage);
 
-// Initialize from URL params (for persistence after page refresh)
 onMounted(() => {
   const urlParams = new URLSearchParams(window.location.search);
   const page = urlParams.get('page');
@@ -36,7 +35,6 @@ onMounted(() => {
   berryStore.fetchBerries();
 });
 
-// Update URL when parameters change (for persistence)
 watch([currentPage, itemsPerPage, searchQuery], () => {
   const params = new URLSearchParams();
   params.set('page', currentPage.value.toString());
@@ -60,13 +58,14 @@ const loading = computed(() => berryStore.loading);
 
 const onPageChange = (page: number) => {
   currentPage.value = page;
+  berryStore.setPage(page);
 };
 
 const onItemsPerPageChange = (items: number) => {
   itemsPerPage.value = items;
+  berryStore.setItemsPerPage(items);
 };
 
-// Extract ID from berry URL
 const getBerryId = (url: string): number => {
   const matches = url.match(/\/(\d+)\/$/);
   return matches ? parseInt(matches[1]) : 1;
@@ -83,9 +82,9 @@ const deleteBerry = (name: string) => {
   <div class="w-full">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-bold">{{ t('table.title') }}</h2>
-<!--      <router-link :to="{ name: 'AddProduct' }" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">-->
-<!--        {{ t('table.addButton') }}-->
-<!--      </router-link>-->
+      <router-link :to="{ name: 'AddProduct' }" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        {{ t('table.addButton') }}
+      </router-link>
     </div>
 
     <div class="mb-4">
@@ -140,12 +139,12 @@ const deleteBerry = (name: string) => {
               {{ berry.name }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap flex space-x-2">
-<!--              <router-link :to="{ name: 'Detail', params: { name: berry.name } }" class="text-blue-600 hover:text-blue-900">-->
-<!--                {{ t('table.detail') }}-->
-<!--              </router-link>-->
-<!--              <router-link :to="{ name: 'EditProduct', params: { id: getBerryId(berry.url) } }" class="text-indigo-600 hover:text-indigo-900">-->
-<!--                {{ t('table.edit') }}-->
-<!--              </router-link>-->
+              <router-link :to="{ name: 'Detail', params: { name: berry.name } }" class="text-blue-600 hover:text-blue-900">
+                {{ t('table.detail') }}
+              </router-link>
+              <router-link :to="{ name: 'EditProduct', params: { id: getBerryId(berry.url) } }" class="text-indigo-600 hover:text-indigo-900">
+                {{ t('table.edit') }}
+              </router-link>
               <button @click="deleteBerry(berry.name)" class="text-red-600 hover:text-red-900">
                 {{ t('table.delete') }}
               </button>
@@ -166,4 +165,3 @@ const deleteBerry = (name: string) => {
     />
   </div>
 </template>
-

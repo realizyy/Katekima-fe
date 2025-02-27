@@ -1,3 +1,78 @@
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
+const props = defineProps({
+  currentPage: {
+    type: Number,
+    required: true
+  },
+  totalPages: {
+    type: Number,
+    required: true
+  },
+  itemsPerPage: {
+    type: Number,
+    required: true
+  },
+  itemsPerPageOptions: {
+    type: Array as () => number[],
+    default: () => [10, 30, 50]
+  }
+});
+
+const emit = defineEmits(['page-change', 'items-per-page-change']);
+
+const localItemsPerPage = ref(props.itemsPerPage);
+
+watch(() => props.itemsPerPage, (newValue) => {
+  localItemsPerPage.value = newValue;
+});
+
+const onPageChange = (page: number) => {
+  if (page >= 1 && page <= props.totalPages) {
+    emit('page-change', page);
+  }
+};
+
+const onItemsPerPageChange = () => {
+  emit('items-per-page-change', localItemsPerPage.value);
+};
+
+const pageNumbers = computed(() => {
+  const numbers: (number | string)[] = [];
+
+  if (props.totalPages <= 7) {
+    for (let i = 1; i <= props.totalPages; i++) {
+      numbers.push(i);
+    }
+  } else {
+    numbers.push(1);
+
+    if (props.currentPage > 3) {
+      numbers.push('...');
+    }
+
+    const start = Math.max(2, props.currentPage - 1);
+    const end = Math.min(props.totalPages - 1, props.currentPage + 1);
+
+    for (let i = start; i <= end; i++) {
+      numbers.push(i);
+    }
+
+    if (props.currentPage < props.totalPages - 2) {
+      numbers.push('...');
+    }
+
+    numbers.push(props.totalPages);
+  }
+
+  return numbers;
+});
+</script>
+
 <template>
   <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
     <div class="flex flex-1 justify-between sm:hidden">
@@ -77,78 +152,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
-
-const { t } = useI18n();
-
-const props = defineProps({
-  currentPage: {
-    type: Number,
-    required: true
-  },
-  totalPages: {
-    type: Number,
-    required: true
-  },
-  itemsPerPage: {
-    type: Number,
-    required: true
-  },
-  itemsPerPageOptions: {
-    type: Array as () => number[],
-    default: () => [10, 30, 50]
-  }
-});
-
-const emit = defineEmits(['page-change', 'items-per-page-change']);
-
-const localItemsPerPage = ref(props.itemsPerPage);
-
-watch(() => props.itemsPerPage, (newValue) => {
-  localItemsPerPage.value = newValue;
-});
-
-const onPageChange = (page: number) => {
-  if (page >= 1 && page <= props.totalPages) {
-    emit('page-change', page);
-  }
-};
-
-const onItemsPerPageChange = () => {
-  emit('items-per-page-change', localItemsPerPage.value);
-};
-
-const pageNumbers = computed(() => {
-  const numbers: (number | string)[] = [];
-
-  if (props.totalPages <= 7) {
-    for (let i = 1; i <= props.totalPages; i++) {
-      numbers.push(i);
-    }
-  } else {
-    numbers.push(1);
-
-    if (props.currentPage > 3) {
-      numbers.push('...');
-    }
-
-    const start = Math.max(2, props.currentPage - 1);
-    const end = Math.min(props.totalPages - 1, props.currentPage + 1);
-
-    for (let i = start; i <= end; i++) {
-      numbers.push(i);
-    }
-
-    if (props.currentPage < props.totalPages - 2) {
-      numbers.push('...');
-    }
-
-    numbers.push(props.totalPages);
-  }
-
-  return numbers;
-});
-</script>

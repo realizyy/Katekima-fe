@@ -84,12 +84,11 @@ export const useBerryStore = defineStore('berry', {
 
     setPage(page: number) {
       this.currentPage = page;
-      // Jika pengguna pindah halaman lalu refresh, harus tetap berada di halaman terakhir. (Untuk fitur penyimpanan dan pencarian)
     },
 
     setItemsPerPage(items: number) {
       this.itemsPerPage = items;
-      this.currentPage = 1; // Reset to first page when changing items per page (Akan direset ke halaman pertama saat mengubah item per halaman)
+      this.currentPage = 1; // Reset to first page when changing items per page
     },
 
     setSearchQuery(query: string) {
@@ -98,7 +97,6 @@ export const useBerryStore = defineStore('berry', {
     },
 
     deleteBerry(name: string) {
-      // Deleting a berry ? (Menghapus berry akan menghapusnya dari daftar dan juga dari maps detail)
       this.berries = this.berries.filter(berry => berry.name !== name);
       if (this.berryDetails.has(name)) {
         this.berryDetails.delete(name);

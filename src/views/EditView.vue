@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import ProductForm from './AppForm.vue';
+import ProductForm from '../components/AppForm.vue';
 
 const { t } = useI18n();
 const route = useRoute();

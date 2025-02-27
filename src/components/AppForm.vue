@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { useProductStore } from '@/stores/PiniaProduct.ts';
+import { useProductStore } from '../stores/PiniaProduct.ts';
 import type { Product } from '../types/Product.ts';
 import SkeletonLoader from './AppSkelektonLoader.vue';
 
