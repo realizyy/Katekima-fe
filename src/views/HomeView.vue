@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import BerryTable from '../components/AppBerryTable.vue';
 </script>
 
 <template>
-  <h1>Home</h1>
-  <p>Welcome to the Home page!</p>
+  <div class="container mx-auto py-8 px-4">
+    <BerryTable />
+  </div>
 </template>
