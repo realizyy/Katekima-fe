@@ -34,7 +34,7 @@ export const useProductStore = defineStore('product', {
       }
     },
 
-    async fetchProduct(id: ComputedRef<Number | String | undefined>) {
+    async fetchProduct(id: ComputedRef<number | string | undefined>) {
       this.loading = true
 
       try {

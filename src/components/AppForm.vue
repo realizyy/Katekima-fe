@@ -31,6 +31,7 @@ const formData = ref<Product>({
 
 onMounted(async () => {
   if (props.isEdit && props.productId) {
+    //this condition for edit product
     const id = typeof props.productId === 'string' ? parseInt(props.productId) : props.productId;
     await productStore.fetchProduct(id);
 
@@ -38,7 +39,14 @@ onMounted(async () => {
       formData.value = { ...productStore.product };
     }
   } else {
-    productStore.resetProduct();
+    // productStore.resetProduct();
+    // this condition for add product
+    const id = Math.floor(Math.random() * 20 + 1); // Random number between 1 and 20 + 1
+    console.log(id);
+    await productStore.fetchProduct(typeof id === 'string' ? parseInt(id) : id);
+    if (productStore.product) {
+      formData.value = { ...productStore.product };
+    }
   }
 });
 
@@ -50,7 +58,7 @@ const submitForm = async () => {
     if (success) {
       // Stay on page to show success message
       setTimeout(() => {
-        router.push({ name: 'TableList' });
+        router.push({ name: 'Home' });
       }, 2000);
     }
   } else {
@@ -68,7 +76,7 @@ const submitForm = async () => {
 
       // Stay on page to show success message
       setTimeout(() => {
-        router.push({ name: 'TableList' });
+        router.push({ name: 'Home' });
       }, 2000);
     }
   }
@@ -163,7 +171,7 @@ const submitForm = async () => {
       <div class="flex justify-end space-x-3 mt-6">
         <button
           type="button"
-          @click="router.push({ name: 'TableList' })"
+          @click="router.push({ name: 'Home' })"
           class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
         >
           {{ t('product.form.cancel') }}
