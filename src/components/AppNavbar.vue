@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const { t, locale } = useI18n();
+const { locale } = useI18n();
 const currentLocale = ref(locale.value);
 
 const changeLocale = () => {
@@ -15,14 +15,10 @@ const changeLocale = () => {
   <nav class="bg-gray-800 text-white p-4">
     <div class="container mx-auto flex justify-between items-center">
       <div class="flex items-center space-x-6">
-<!--        <router-link :to="{ name: 'TableList' }" class="text-xl font-bold">-->
-<!--          Berry App-->
-<!--        </router-link>-->
-<!--        <div class="hidden md:flex space-x-4">-->
-<!--          <router-link :to="{ name: 'TableList' }" class="hover:text-gray-300">-->
-<!--            {{ t('navbar.table') }}-->
-<!--          </router-link>-->
-<!--        </div>-->
+        <img src="/favicon.ico" alt="Pokéball" class="h-8 w-8" />
+        <router-link :to="{ name: 'Home' }" class="text-xl font-bold">
+          Pokéberry
+        </router-link>
       </div>
 
       <div class="flex items-center space-x-4">
